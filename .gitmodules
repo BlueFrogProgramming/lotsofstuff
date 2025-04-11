@@ -1,0 +1,3 @@
+[submodule "shadcn-table"]
+	path = shadcn-table
+	url = https://github.com/sadmann7/shadcn-table
