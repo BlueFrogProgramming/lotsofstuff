@@ -1,0 +1,41 @@
+
+
+.container {
+    position: fixed;
+    top: 10px;
+    z-index: 10000;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .box {
+    background: #ffdddd;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .message {
+    justify-self: flex-start;
+    display: inline;
+    color: #a00;
+    margin: 0;
+  }
+  
+  .dismiss {
+    display: inline;
+    color: #a00;
+    margin: 0;
+  }
+  
+  .refresh {
+    display: inline;
+    color: #a00;
+    margin: 0;
+  }

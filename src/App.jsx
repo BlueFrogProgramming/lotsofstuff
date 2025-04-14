@@ -2,13 +2,8 @@ import { useState, useEffect } from "react";
 import {
   Authenticator,
   Button,
-  Text,
-  TextField,
   Heading,
   Flex,
-  View,
-  Grid,
-  Divider,
 } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
@@ -23,67 +18,124 @@ const client = generateClient({
   authMode: "userPool",
 });
 
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'
+import '@mdxeditor/editor/style.css'
+import { MDXEditor, UndoRedo, BoldItalicUnderlineToggles, toolbarPlugin, InsertImage, ListsToggle, listsPlugin, imagePlugin } from '@mdxeditor/editor'
+
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
+ModuleRegistry.registerModules([AllCommunityModule]);
+import { AgGridReact } from 'ag-grid-react';
+
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+import { MantineProvider } from '@mantine/core';
+import { YearPicker } from '@mantine/dates';
+
+import UnexpectedError from './UnexpectedError.jsx'
+
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorFallback from "./components/ErrorFallback.jsx";
+import { useAsyncErrorHandler } from './components/ErrorContext';
 
 export default function App() {
-  const [expenses, setExpenses] = useState([]);
-  const [content, setContent] = useState('');
 
-  const handleContentChange = (value) => {
-    setContent(value);
-  };
+  const { addError } = useAsyncErrorHandler();
 
   useEffect(() => {
-    client.models.Expense.observeQuery().subscribe({
-      next: (data) => setExpenses([...data.items]),
-    });
-  }, []);
+    fetch('https://www.ag-grid.com/example-assets/space-mission-data.json') // Fetch data from server
+        .then(result => result.json()) // Convert to JSON
+        .then(rowData => setRowData(rowData)); // Update state of `rowData`
+  }, [])
 
-  async function createExpense(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
+  const [value, setValue] = useState("")
 
-    await client.models.Expense.create({
-      name: form.get("name"),
-      amount: form.get("amount"),
-    });
+  const CompanyLogoRenderer = ({ value }) => (
+    <span style={{ display: "flex", height: "100%", width: "100%", alignItems: "center" }}>{value && <img alt={`${value} Flag`} src={`https://www.ag-grid.com/example-assets/space-company-logos/${value.toLowerCase()}.png`} style={{display: "block", width: "25px", height: "auto", maxHeight: "50%", marginRight: "12px", filter: "brightness(1.1)"}} />}<p style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>{value}</p></span>
+  );  
 
-    event.target.reset();
-  }
+      const [rowData, setRowData] = useState([]);
+      const [colDefs, setColDefs] = useState([
+          { field: "mission" },
+          { field: "company", cellRenderer: CompanyLogoRenderer },
+          { field: "location" },
+          { field: "date" },
+          { field: "price", valueFormatter: params => { return '£' + params.value.toLocaleString(); } },
+          { field: "successful" },
+          { field: "rocket" }
+      ]);
 
-  async function deleteExpense({ id }) {
-    const toBeDeletedExpense = {
-      id,
-    };
+  const defaultColDef = {
+    flex: 1,
+    editable: true,
+    filter: true
+  };
 
-    await client.models.Expense.delete(toBeDeletedExpense);
+  function dateChange(date) {
+    if (new Date().getFullYear() - date.getFullYear() > 100 | new Date().getFullYear() - date.getFullYear() < 1 ) {
+      addError("Enter a valid age")
+    } else if (new Date().getFullYear() - date.getFullYear() < 13 ) {
+      addError("You must be over 13")
+    } else {
+      setValue(date)
+    }
   }
 
   return (
     <Authenticator>
       {({ signOut }) => (
-        <Flex
-          className="App"
-          justifyContent="center"
-          alignItems="center"
-          direction="column"
-          width="70%"
-          margin="0 auto"
-        >
-          <Heading level={1}>Here's some app stuff</Heading>
           <div>
-            <h2>Rich Text Editor</h2>
-            <ReactQuill
-              theme="snow"
-              value={content}
-              onChange={handleContentChange}
-            />
-            <h3>Preview:</h3>
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+            <Flex
+              className="App"
+              justifyContent="center"
+              alignItems="center"
+              direction="column"
+              width="70%"
+              margin="0 auto"
+            >
+            <Heading level={1} style={{margin: 25}}>Here's some app stuff</Heading>
+            <p>MDX Rich Text Editor</p>
+            <div style={{ width: '1000px', height: '500px', borderWidth: '1px', borderRadius: "5px", marginBottom: 25}}>
+              <MDXEditor
+                markdown="Hello world"
+                plugins={[
+                  imagePlugin(),
+                  listsPlugin(),
+                  toolbarPlugin({
+                    toolbarClassName: 'my-classname',
+                    toolbarContents: () => (
+                      <>
+                        <UndoRedo />
+                        <BoldItalicUnderlineToggles />
+                        <InsertImage />
+                        <ListsToggle />
+                      </>
+                    )
+                  })
+                ]}
+              />
+            </div>
+            <p>AG Grid Dynamic Table</p>
+            <div style={{ height: 500, width: 1000, }}>
+              <AgGridReact
+                  rowData={rowData}
+                  columnDefs={colDefs}
+                  defaultColDef={defaultColDef}
+                  pagination={true}
+                  onCellValueChanged={event => console.log(`New Cell Value: ${event.value}`)}
+              />
+            </div>
+            <h3>Mantine ui library:</h3>
+            <p>When were you born?</p>
+            <MantineProvider>
+              <YearPicker value={value} onChange={dateChange} />
+            </MantineProvider>
+
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <UnexpectedError />
+            </ErrorBoundary>
+
+            <Button onClick={signOut} style={{ marginBottom: 20 }}>Sign Out</Button>
+            </Flex>
           </div>
-          <Button onClick={signOut}>Sign Out</Button>
-        </Flex>
       )}
     </Authenticator>
   );
