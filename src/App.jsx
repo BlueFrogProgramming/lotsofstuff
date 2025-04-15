@@ -35,6 +35,7 @@ import UnexpectedError from './UnexpectedError.jsx'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from "./components/ErrorFallback.jsx";
 import { useAsyncErrorHandler } from './components/ErrorContext';
+import { useTranslation } from "react-i18next";
 
 export default function App() {
 
@@ -79,6 +80,8 @@ export default function App() {
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <Authenticator>
       {({ signOut }) => (
@@ -91,7 +94,7 @@ export default function App() {
               width="70%"
               margin="0 auto"
             >
-            <Heading level={1} style={{margin: 25}}>Here's some app stuff</Heading>
+            <Heading level={1} style={{margin: 25}}>{t('welcomeMessage')}</Heading>
             <p>MDX Rich Text Editor</p>
             <div style={{ width: '1000px', height: '500px', borderWidth: '1px', borderRadius: "5px", marginBottom: 25}}>
               <MDXEditor
