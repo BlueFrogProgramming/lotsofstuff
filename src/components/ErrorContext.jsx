@@ -14,7 +14,7 @@ export const ErrorProvider = ({ children }) => {
     });
     setTimeout(() => {
       clearError(id);
-    }, 5000);
+    }, 5000000);
   }, [setErrors]);
 
   const clearError = (id) => {

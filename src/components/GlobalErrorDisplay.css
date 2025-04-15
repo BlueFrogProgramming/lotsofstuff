@@ -18,24 +18,20 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     width: 70%;
     display: flex;
-    justify-content: flex-end;
   }
   
   .message {
-    justify-self: flex-start;
-    display: inline;
     color: #a00;
     margin: 0;
   }
   
-  .dismiss {
-    display: inline;
+  .dismiss, .refresh {
     color: #a00;
     margin: 0;
+    cursor: pointer;
   }
-  
+
   .refresh {
-    display: inline;
-    color: #a00;
-    margin: 0;
+    margin-left: auto;
+    margin-right: 10px;
   }

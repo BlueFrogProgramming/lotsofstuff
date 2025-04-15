@@ -13,8 +13,8 @@ const GlobalErrorDisplay = () => {
       {errors.map(({ id, message }) => (
         <div key={id} className="box">
           <p className="message">Error: {message}</p>
-          <button className="dismiss" onClick={() => clearError(id)}><X color='#a00' size={27}/></button>
           <button className="refresh" onClick={() => window.location.reload()}><RotateCw color='#a00' size={22}/></button>
+          <button className="dismiss" onClick={() => clearError(id)}><X color='#a00' size={27}/></button>
         </div>
       ))}
     </div>

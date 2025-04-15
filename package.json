@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test-ct": "playwright test -c playwright-ct.config.ts"
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.11.0",
@@ -48,6 +49,7 @@
     "@aws-amplify/backend": "^1.15.0",
     "@aws-amplify/backend-cli": "^1.5.0",
     "@eslint/js": "^9.21.0",
+    "@playwright/experimental-ct-react": "^1.51.1",
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
