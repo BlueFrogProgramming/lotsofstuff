@@ -94,11 +94,11 @@ export default function App() {
               width="70%"
               margin="0 auto"
             >
-            <Heading level={1} style={{margin: 25}}>{t('welcomeMessage')}</Heading>
-            <p>MDX Rich Text Editor</p>
+            <Heading level={1} style={{margin: 25}}>{t("title")}</Heading>
+            <p>{t("richTextTitle")}</p>
             <div style={{ width: '1000px', height: '500px', borderWidth: '1px', borderRadius: "5px", marginBottom: 25}}>
               <MDXEditor
-                markdown="Hello world"
+                markdown={t("richTextPlaceholder")}
                 plugins={[
                   imagePlugin(),
                   listsPlugin(),
@@ -116,7 +116,7 @@ export default function App() {
                 ]}
               />
             </div>
-            <p>AG Grid Dynamic Table</p>
+            <p>{t("tableTitle")}</p>
             <div style={{ height: 500, width: 1000, }}>
               <AgGridReact
                   rowData={rowData}
@@ -126,8 +126,8 @@ export default function App() {
                   onCellValueChanged={event => console.log(`New Cell Value: ${event.value}`)}
               />
             </div>
-            <h3>Mantine ui library:</h3>
-            <p>When were you born?</p>
+            <h3>{t("mantineTitle")}</h3>
+            <p>{t("birthdateQuestion")}</p>
             <MantineProvider>
               <YearPicker value={value} onChange={dateChange} />
             </MantineProvider>

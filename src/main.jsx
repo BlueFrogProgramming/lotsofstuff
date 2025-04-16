@@ -9,7 +9,7 @@ import ErrorFallback from './components/ErrorFallback.jsx'
 import '@mantine/core/styles.css'
 import { MantineProvider } from '@mantine/core'
 
-import i18n from './utils/i18next.js'
+import './utils/i18next.js'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
