@@ -1,25 +1,30 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import { initReactI18next, Translation } from "react-i18next";
+import en from './translations/en/testtranslateion.json'
+import de from './translations/de/testtranslateion.json'
+import es from './translations/es/testtranslateion.json'
+import fr from './translations/fr/testtranslateion.json'
+import it from './translations/it/testtranslateion.json'
 
 // the translations
 // (tip move them in a JSON file and import them,
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
 const resources = {
   en: {
-    translation: {
-      "title": "Here's some app stuff",
-      "richTextTitle": "MDX Rich Text Editor",
-      "richTextPlaceholder": "Hello world",
-      "tableTitle": "AG Grid Dynamic Table",
-      "mantineTitle": "Mantine UI Library",
-      "birthdateQuestion": "When were you born?",
-    }
+    translation: en,
+  },
+  de: {
+    translation: de,
+  },
+  es: {
+    translation: es,
   },
   fr: {
-    translation: {
-      "title": "idk french",
-    }
-  }
+    translation: fr,
+  },
+  it: {
+    translation: it,
+  },
 };
 
 i18n
@@ -27,10 +32,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    lng: "en", // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
-    // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
-    // if you're using a language detector, do not define the lng option
-
+    lng: "en",
     interpolation: {
       escapeValue: false // react already safes from xss
     }

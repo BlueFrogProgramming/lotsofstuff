@@ -9,6 +9,7 @@ import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../amplify_outputs.json";
+import './App.css'
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
  */
@@ -85,18 +86,10 @@ export default function App() {
   return (
     <Authenticator>
       {({ signOut }) => (
-          <div>
-            <Flex
-              className="App"
-              justifyContent="center"
-              alignItems="center"
-              direction="column"
-              width="70%"
-              margin="0 auto"
-            >
-            <Heading level={1} style={{margin: 25}}>{t("title")}</Heading>
-            <p>{t("richTextTitle")}</p>
-            <div style={{ width: '1000px', height: '500px', borderWidth: '1px', borderRadius: "5px", marginBottom: 25}}>
+          <div className="wrapper">
+            <Heading className="title" level={2}>{t("title")}</Heading>
+            <p className="textTitle">{t("richTextTitle")}</p>
+            <div className="editorWrapper">
               <MDXEditor
                 markdown={t("richTextPlaceholder")}
                 plugins={[
@@ -116,7 +109,7 @@ export default function App() {
                 ]}
               />
             </div>
-            <p>{t("tableTitle")}</p>
+            <p className="tableTitle">{t("tableTitle")}</p>
             <div style={{ height: 500, width: 1000, }}>
               <AgGridReact
                   rowData={rowData}
@@ -126,18 +119,19 @@ export default function App() {
                   onCellValueChanged={event => console.log(`New Cell Value: ${event.value}`)}
               />
             </div>
-            <h3>{t("mantineTitle")}</h3>
+            <h3 className="mantineTitle">{t("mantineTitle")}</h3>
             <p>{t("birthdateQuestion")}</p>
             <MantineProvider>
               <YearPicker value={value} onChange={dateChange} />
             </MantineProvider>
-
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <UnexpectedError />
-            </ErrorBoundary>
+            
+            <div className="errorComponent">
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <UnexpectedError />
+              </ErrorBoundary>
+            </div>
 
             <Button onClick={signOut} style={{ marginBottom: 20 }}>Sign Out</Button>
-            </Flex>
           </div>
       )}
     </Authenticator>

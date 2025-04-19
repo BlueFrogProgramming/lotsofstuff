@@ -8,6 +8,7 @@ import GlobalErrorDisplay from './components/GlobalErrorDisplay.jsx'
 import ErrorFallback from './components/ErrorFallback.jsx'
 import '@mantine/core/styles.css'
 import { MantineProvider } from '@mantine/core'
+import LanguageSelect from './LanguageSelect'
 
 import './utils/i18next.js'
 
@@ -15,6 +16,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <MantineProvider>
       <ErrorProvider>
+        <div style={{ width: "100%" }}>
+          <LanguageSelect />
+        </div>
         <GlobalErrorDisplay />
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <App />
